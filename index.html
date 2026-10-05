@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F7F6F2" />
+  <title>Cadence — Hoje, no seu ritmo.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+
+<body>
+  <main class="app">
+    <!-- TOPO -->
+    <header class="topbar">
+      <p class="brand">Cadence</p>
+      <div class="topbar__meta">
+        <p class="date" id="today"></p>
+        <button class="nav-switch-btn" id="planner-corner-btn" type="button" aria-label="Mudar para Planejador">
+          <span class="nav-switch-btn__icon" aria-hidden="true">▦</span>
+          <span class="nav-switch-btn__label">Planejador</span>
+        </button>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"
+          aria-controls="sidebar-menu">
+          <svg class="menu-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <span class="menu-toggle__label">Menu</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- HOJE -->
+    <section class="panel" id="focus-panel" role="tabpanel" aria-labelledby="focus-tab">
+      <section class="page-header" aria-labelledby="page-title">
+      <h1 id="page-title">Hoje, no seu ritmo.</h1>
+      <p class="progress-copy" id="progress-copy" aria-live="polite"></p>
+      <div class="progress" role="progressbar" aria-label="Progresso das tarefas de hoje" aria-valuemin="0"
+        aria-valuemax="100" aria-valuenow="0">
+        <div class="progress__fill" id="progress-fill"></div>
+      </div>
+      </section>
+
+      <section class="now-stage" aria-labelledby="now-title">
+        <div class="now-stage__header">
+          <h2 class="now-title" id="now-title">Hoje</h2>
+          <button class="now-stage__add-btn" id="focus-quick-add" type="button" aria-label="Agendar tarefa para hoje">
+            <span aria-hidden="true">+</span> Agendar tarefa
+          </button>
+        </div>
+        <ul class="now-list" id="now-list" aria-label="Tarefas para fazer hoje"></ul>
+        <div class="now-empty" id="now-empty" hidden>
+          <p class="now-empty__copy">Nenhuma tarefa agendada para hoje. Aproveite o seu ritmo ou planeje novas
+            atividades.</p>
+          <button class="now-empty__btn" id="now-empty-add" type="button">+ Agendar nova tarefa</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- CABEÇALHO PLANNER -->
+    <section class="panel" id="planner-panel" role="tabpanel" aria-labelledby="planner-tab" hidden>
+      <header class="planner-head">
+        <div>
+          <h2 class="planner-title">Planejador</h2>
+          <p class="planner-copy">Organize suas atividades antes que as demandas disputem sua atenção.</p>
+        </div>
+        <div class="view-switch" aria-label="Intervalo de visualização">
+          <button type="button" data-view="week" aria-pressed="true">Semana</button>
+          <button type="button" data-view="month" aria-pressed="false">Calendário</button>
+        </div>
+      </header>
+
+      <!-- PLANNER SEMANAL E MENSAL -->
+      <div id="planner-list" aria-live="polite"></div>
+
+      <section id="calendar-view" hidden aria-label="Calendário mensal contínuo">
+        <div class="calendar-toolbar">
+          <p>Navegue livremente pelos meses do seu ano.</p><button id="calendar-reset" type="button">Hoje</button>
+        </div>
+        <div class="calendar-months" id="calendar-months"></div>
+      </section>
+    </section>
+  </main>
+
+  <!-- Barra Lateral (Sidebar Menu) -->
+  <div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
+  <aside class="sidebar" id="sidebar-menu" aria-label="Menu principal" aria-hidden="true">
+    <div class="sidebar__inner">
+      <header class="sidebar__head">
+        <div>
+          <h2 class="sidebar__title">Cadence</h2>
+          <p class="sidebar__subtitle">Hoje, no seu ritmo.</p>
+        </div>
+        <button class="icon-button" id="sidebar-close" type="button" aria-label="Fechar menu">×</button>
+      </header>
+
+      <div class="sidebar__content">
+        <!-- Aparência / Modo claro e escuro -->
+        <section class="sidebar__section">
+          <h3 class="sidebar__section-title">Aparência</h3>
+          <div class="sidebar__theme-toggle" role="group" aria-label="Escolher tema">
+            <button class="sidebar__theme-btn" id="theme-btn-light" type="button" data-theme-set="light">
+              <span aria-hidden="true">☀️</span> Claro
+            </button>
+            <button class="sidebar__theme-btn" id="theme-btn-dark" type="button" data-theme-set="dark">
+              <span aria-hidden="true">🌙</span> Escuro
+            </button>
+          </div>
+        </section>
+
+        <!-- Navegação rápida -->
+        <section class="sidebar__section">
+          <h3 class="sidebar__section-title">Visualizações</h3>
+          <div class="sidebar__nav">
+            <button class="sidebar__nav-item" type="button" data-sidebar-action="focus">
+              <span class="sidebar__nav-icon" aria-hidden="true">◉</span>
+              <span class="sidebar__nav-text">Foco (Hoje)</span>
+              <span class="sidebar__nav-badge" id="sidebar-focus-count">0</span>
+            </button>
+            <button class="sidebar__nav-item" type="button" data-sidebar-action="planner">
+              <span class="sidebar__nav-icon" aria-hidden="true">▦</span>
+              <span class="sidebar__nav-text">Planejador</span>
+            </button>
+            <button class="sidebar__nav-item" type="button" data-sidebar-action="new-task">
+              <span class="sidebar__nav-icon" aria-hidden="true">+</span>
+              <span class="sidebar__nav-text">Agendar nova tarefa</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Configurações e Dados -->
+        <section class="sidebar__section">
+          <h3 class="sidebar__section-title">Dados & Backup</h3>
+          <div class="sidebar__actions">
+            <button class="sidebar__action-button" id="sidebar-export-tasks" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Exportar tarefas (JSON)</span>
+            </button>
+            <button class="sidebar__action-button sidebar__action-button--danger" id="sidebar-reset-tasks"
+              type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Redefinir todas as tarefas</span>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <footer class="sidebar__footer">
+        <p class="sidebar__storage-note">🔒 Seus dados ficam salvos localmente neste navegador.</p>
+        <span class="sidebar__version-tag">Cadence v0.1.4</span>
+      </footer>
+    </div>
+  </aside>
+
+  <div class="sheet" id="task-sheet" role="dialog" aria-modal="true" aria-labelledby="task-sheet-title" hidden>
+    <div class="sheet__card">
+
+      <header class="sheet__head">
+        <h2 class="sheet__title" id="task-sheet-title">Agendar tarefa</h2><button class="icon-button" type="button"
+          data-close="task-sheet" aria-label="Fechar">×</button>
+      </header>
+
+      <form class="add-task" id="add-task-form">
+        <label class="field" for="task-input">
+          <span class="field__label">Tarefa</span>
+          <input class="add-task__input" id="task-input" name="task" type="text" placeholder="O que precisa ser feito?" autocomplete="off" maxlength="90" required />
+        </label>
+
+        <div class="add-task__row">
+          <label class="field" for="date-input">
+            <span class="field__label">Data</span>
+            <input class="add-task__date" id="date-input" name="date" type="date" lang="pt-BR" required />
+          </label>
+
+          <label class="field" for="time-input">
+            <span class="field__label">Horário</span>
+            <input class="add-task__time" id="time-input" name="time" type="time" lang="pt-BR" required />
+          </label>
+
+          <button class="add-task__button" id="task-submit" type="submit" aria-label="Agendar tarefa">Adicionar</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <div class="sheet" id="settings-sheet" role="dialog" aria-modal="true" aria-labelledby="settings-sheet-title" hidden>
+    <div class="sheet__card">
+      <header class="sheet__head">
+        <h2 class="sheet__title" id="settings-sheet-title">Configurações</h2><button class="icon-button" type="button"
+          data-close="settings-sheet" aria-label="Fechar">×</button>
+      </header>
+      <div class="settings">
+        <section class="setting">
+          <div>
+            <h3>Aparência</h3>
+            <p>Escolha entre a paleta clara ou escura do Cadence.</p>
+          </div><button id="settings-theme-toggle" type="button">Modo escuro</button>
+        </section>
+        <section class="setting">
+          <div>
+            <h3>Foco do dia</h3>
+            <p>Todas as tarefas programadas para hoje ficam reunidas na aba Foco.</p>
+          </div><strong>Ativado</strong>
+        </section>
+        <section class="setting">
+          <div>
+            <h3>Dados locais</h3>
+            <p>Suas tarefas ficam salvas apenas neste navegador.</p>
+          </div><button id="export-tasks" type="button">Exportar</button>
+        </section>
+        <section class="setting">
+          <div>
+            <h3>Recomeçar</h3>
+            <p>Apagar todas as tarefas do Cadence deste dispositivo.</p>
+          </div><button class="danger-button" id="reset-tasks" type="button">Redefinir</button>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botao canto inferior direito -->
+  <div class="fab-menu" id="fab-menu">
+    <div class="fab-menu__actions" aria-label="Ações rápidas">
+      <button class="fab-menu__action" type="button" data-fab="task">+ Agendar tarefa</button>
+      <button class="fab-menu__action" type="button" data-fab="planner">▦ Abrir planejador</button>
+      <button class="fab-menu__action" type="button" data-fab="settings">⚙ Configurações</button>
+    </div>
+    <button class="fab" id="fab-toggle" type="button" aria-label="Abrir ações rápidas" aria-expanded="false">+</button>
+  </div>
+
+  <script src="./src/script.js"></script>
+</body>
+
+</html>

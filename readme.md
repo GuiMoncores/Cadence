@@ -1,44 +1,44 @@
-# Cadence — Gestão de Tarefas e Planejamento Pessoal
+# Cadence — Hoje, no seu ritmo.
 
-**Versão Demo — v0.0.2**
+**Versão v0.1.4**
 
-O **Cadence** (v0.0.2) é uma aplicação web autônoma desenvolvida em arquivo único (*Single-File Web Application*), projetada para oferecer uma experiência minimalista de gerenciamento de tempo, foco diário e planejamento contínuo. 
-
-Esta versão serve como demonstração funcional da arquitetura client-side do Cadence, operando sem a necessidade de dependências externas, servidores ou compiladores.
+O **Cadence** (v0.1.4) é uma aplicação web de gerenciamento de tempo, foco diário e planejamento pessoal. Desenvolvido com uma arquitetura leve e nativa (*Vanilla JavaScript*), o projeto combina um painel de foco diário com um planejador semanal e mensal interativo.
 
 ---
 
-## Recursos da Versão Demo
+## Recursos da Versão v0.1.4
 
 ### 1. Painel Foco (Focus)
-* **Organização Diária:** Centralização e exibição das atividades agendadas para o dia atual (*Today*), ordenadas cronologicamente.
-* **Indicador de Progresso:** Acompanhamento dinâmico da taxa de conclusão das tarefas diárias através de barra visual e contador percentual.
-* **Módulo de Atenção (Now Stage):** Área de alta visibilidade reservada para a execução imediata das prioridades do dia.
+* **Gestão do Dia (Hoje):** Listagem centralizada das atividades agendadas para o dia atual, organizadas por ordem cronológica.
+* **Indicadores de Urgência e Atraso:** Identificação visual de tarefas com os emblemas *Atrasada* (tarefas pendentes de dias anteriores) e *Urgente* (tarefas cujo horário agendado já passou).
+* **Progresso do Dia:** Barra visual e estatística descritiva mostrando a quantidade e porcentagem de tarefas concluídas no dia.
 
-### 2. Planejador (Planner)
-* **Visualização Semanal (Week View):** Agrupamento linear das tarefas programadas para os próximos 7 dias.
-* **Calendário Mensal Contínuo (Calendar View):** Visão macro estendida cobrindo 12 meses com marcadores visuais da densidade de tarefas diárias.
-* **Agendamento Direto via Calendário:** Seleção rápida de qualquer data do calendário para criação imediata de novos compromissos.
+### 2. Planejador Interativo (Planner)
+* **Grade Semanal de 24 Horas (Week Grid View):** Grade de horários interativa no estilo calendário, com exibição de colunas por dia da semana (GMT-3), marcador de linha de tempo atual em tempo real e algoritmo para ajuste visual de tarefas sobrepostas.
+* **Navegação Semanal:** Botões de controle para avançar, retroceder ou retornar à semana atual.
+* **Agendamento Direto na Grade:** Clique direto em qualquer bloco de hora na grade semanal para preencher automaticamente a data e horário no formulário de agendamento.
+* **Calendário Mensal Contínuo (Calendar View):** Visualização estendida dos 12 meses do ano com indicadores visuais da quantidade de tarefas agendadas por dia.
 
 ### 3. Usabilidade e Interface
-* **Edição Inline de Tarefas:** Alteração ágil do título das atividades diretamente na lista, confirmada via tecla `Enter` ou desfocagem (`focusout`).
-* **Suporte a Temas:** Alternância entre os modos Claro (*Light*) e Escuro (*Dark*), com detecção automática do tema do sistema operacional (`prefers-color-scheme`).
-* **Menu de Ações Rápidas (FAB Menu):** Interface flutuante para criação acelerada de tarefas, navegação de telas e configurações.
+* **Barra Lateral (Sidebar Drawer):** Menu retrátil com atalhos de navegação rápida, contador de tarefas pendentes no painel Foco, seleção de tema e atalhos para gerenciamento de dados.
+* **Modal de Agendamento (Task Sheet):** Interface modal dedicada com campos específicos para nome da tarefa, data (`input[type="date"]`) e horário (`input[type="time"]`), com suporte à criação e edição de tarefas existentes.
+* **Suporte a Temas:** Alternância entre os modos Claro (*Light*) e Escuro (*Dark*), salvando a preferência do usuário e respeitando o tema do sistema operacional (`prefers-color-scheme`).
+* **Menu de Ações Rápidas (FAB Menu):** Botão flutuante para criação rápida de tarefas, abertura do planejador ou acesso às configurações.
 
 ### 4. Gestão e Privacidade de Dados
-* **Persistência Local (Local-First):** Armazenamento automático e privado das informações no `localStorage` do navegador do usuário.
-* **Exportação JSON:** Funcionalidade para download de backup das tarefas cadastradas em formato `.json`.
-* **Redefinição de Estado:** Ferramenta para limpeza rápida do banco de dados local.
+* **Persistência Local (Local-First):** Armazenamento de dados realizado de forma privada no `localStorage` do dispositivo do usuário (`cadence-tasks-v2`).
+* **Exportação JSON:** Download de backup completo das tarefas cadastradas em formato `.json`.
+* **Redefinição de Estado:** Opção para exclusão completa dos dados locais com confirmação de segurança.
 
 ---
 
 ## Arquitetura Técnica
 
-A versão 0.0.2 adota uma arquitetura simplificada e altamente portátil:
+A versão v0.1.4 adota uma estrutura organizada em módulos web padrão:
 
-* **Single-File Distribution:** Todo o código da aplicação (estrutura HTML, estilização CSS e lógica JavaScript) está contido em um único arquivo, garantindo fácil distribuição e execução.
-* **Sem Compilação:** Executado nativamente em qualquer navegador moderno usando APIs web padronizadas (ES6+, DOM Manipulation e CSS Custom Properties).
-* **Internacionalização Base:** Interface estruturada em língua inglesa, utilizando a API `Intl.DateTimeFormat` para formatação nativa de datas e horas.
+* **Arquitetura Modular:** Separação limpa entre estrutura HTML (`index.html`), estilização CSS (`src/style.css`) e lógica de aplicação (`src/script.js`).
+* **Zero Dependências de Compilação:** Execução nativa em qualquer navegador moderno usando JavaScript ES6+, manipulação direta da DOM e Variáveis CSS (Custom Properties).
+* **Localização (pt-BR):** Interface nativa em português do Brasil com formatação de datas e horas via API `Intl.DateTimeFormat`.
 
 ---
 
@@ -46,22 +46,25 @@ A versão 0.0.2 adota uma arquitetura simplificada e altamente portátil:
 
 ```
 cadence/
-├── cadence.html    # Arquivo único da aplicação (HTML, CSS e JavaScript)
-└── README.md       # Documentação técnica e guia do usuário
+├── index.html        # Estrutura HTML principal da aplicação
+├── src/
+│   ├── style.css     # Estilos da interface, temas e leiaute responsivo
+│   └── script.js     # Lógica de estado, manipulação de DOM e calendário
+└── README.md         # Documentação técnica do projeto
 ```
 
 ---
 
-## Como Executar a Demonstração
+## Como Executar
 
-Por não requerer ambiente Node.js, empacotadores ou servidores HTTP:
+Por ser uma aplicação web nativa que não requer ambiente Node.js ou servidores de compilação:
 
-1. Faça o download ou clone o repositório contendo o arquivo `cadence.html`.
-2. Abra o arquivo `cadence.html` diretamente em seu navegador web (Google Chrome, Mozilla Firefox, Safari, Microsoft Edge ou equivalente).
-3. A aplicação estará pronta para uso imediato.
+1. Obtenha os arquivos do projeto clonando o repositório ou baixando o pacote de código.
+2. Abra o arquivo `index.html` em qualquer navegador web moderno (Google Chrome, Mozilla Firefox, Safari, Microsoft Edge ou equivalente).
+3. A aplicação estará pronta para uso.
 
 ---
 
 ## Licença
 
-Esta versão de demonstração é disponibilizada para avaliação técnica, testes de usabilidade e estudos de implementação client-side.
+Esta versão é disponibilizada para avaliação técnica, testes de usabilidade e uso pessoal.
